@@ -1,0 +1,131 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+class Program
+{
+        static void Main()
+        {
+            Console.WriteLine("　　　              ［ホワイトボード］");
+            string[] students =
+            {
+                ""," 浅井 "," 淡路 "," 小瀬 ","小田根"," 梶山 ","　厳　"," 須江 "," 藤次 "," 真木 "," 朝井 "," 石津 "," 岩田 "," 小勝 "," 櫻井 "," 佐藤 "," 佐野 "," 相馬 "," 服部 "," 笛木 "," 放上 "," 前田 "," 宮道 "," 村上 "," 吉岡 ","　陸　"," 渡邉 "
+            };
+            //データ読み取り
+            string[] A_str = Console.ReadLine().Split(' ');
+            string[] B_str = Console.ReadLine().Split(' ');
+            string[] C_str = Console.ReadLine().Split(' ');
+            string[] D_str = Console.ReadLine().Split(' ');
+            //string[] E_str = Console.ReadLine().Split(' ');
+            string[][] strs = { A_str, B_str,C_str,D_str,/*E_str*/};
+
+            int[] A = new int[A_str.Length];
+            int[] B = new int[B_str.Length];
+            int[] C = new int[C_str.Length];
+            int[] D = new int[D_str.Length];
+            //int[] E = new int[E_str.Length];
+            int[][] ints = { A, B, C, D, /*E*/ };
+
+            int j = 0;
+            for(int i = 0; i < 4; i++)
+            {
+                foreach (string str in strs[i])
+                {
+                    ints[i][j] = int.Parse(str);
+                    j++;
+                }
+                j = 0;
+            }
+            //前列希望者の席を抽選
+            int[] nums = new int[students.Length-1];
+            Random rand = new Random();
+            int r = 0;
+            for(int n = 0; n < ints.Length; n++)
+            {
+                for(int m =  0; m < ints[n].Length; m++)
+                {
+                    while (!nums.Contains(ints[n][m]))
+                    {
+                        r = rand.Next(0, n * 6 + 6);
+                        if (nums[r] == 0)
+                        {
+                            nums[r] = ints[n][m];
+                        }
+                    }
+                }
+            }
+
+
+            //num[]の空いている総要素数
+            int intsnum = students.Length-1;
+            for(int i = 0; i<ints.Length; i++)
+            {
+                intsnum -= ints[i].Length;
+            }
+            List<int> intsAll = new List<int>();//intsをぜんぶひとまとめにしたやつ
+
+            for (int i = 0; i < ints.Length; i++)
+            {
+                for(int k = 0; k < ints[i].Length; k++)
+                {
+                    intsAll.Add(ints[i][k]);
+                }
+            }
+            List<int> freeStu = new List<int>();
+            for(int i = 1; i < students.Length; i++)
+            {
+                if (!intsAll.Contains(i))
+                {
+                    freeStu.Add(i);
+                }
+            }
+            freeStu = freeStu.OrderBy(a => Guid.NewGuid()).ToList();//シャッフル
+            
+            int l = 0;
+            for(int i = 0; i < freeStu.Count; i++)
+            {
+              while(nums[l] != 0)
+              {
+                l++;
+              }
+              nums[l] = freeStu[i];
+                /*if (nums[i] == 0 & !intsAll.Contains(freeStu[i]))
+                {
+                  while(!nums.Contains(freeStu[i]))
+                  {
+                    nums[i] = freeStu[i];
+                  }
+                }*/
+                //前席希望しない生徒を埋めていく工程。
+                //複雑な機構なので注意。
+            }
+            
+            //出力
+            int count = 0;
+            foreach(int i in nums)
+            {
+              if(count % 6 == 0){ //席の端っこまで埋まったら改行
+                Console.WriteLine();
+              }
+              if(count == 30){
+                Console.Write("[　　]　");
+              }
+                Console.Write("["+students[i]+"]　");
+                count++;
+                
+            }
+        }
+ }
+
+
+/*入力
+0
+22
+1 2 6 10
+13 19
+
+一列目　なし
+二列目　宮道
+三列目　浅井　淡路　厳　朝井
+四列目　小勝　笛木
+*/
