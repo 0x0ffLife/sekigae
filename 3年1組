@@ -6,11 +6,11 @@ class Program
 {
         static void Main()
         {
-            Console.WriteLine("　　　        ［ホワイトボード］");
             string[] students =
             {
                 "","池上","小田"," 果 ","北山","古菅","佐山","鈴木","寺江","西岡","本多","村澤","本木","山崎","山本","朝井","石津","岩田","小勝","櫻井","佐藤","佐野","相馬","服部","笛木","放上","前田","宮道","村上","吉岡"," 陸 ","渡邉","黒瀬","中島","橋本","福山"
             };
+
             //データ読み取り
             string[] A_str = Console.ReadLine().Split(' ');
             string[] B_str = Console.ReadLine().Split(' ');
@@ -19,13 +19,13 @@ class Program
             //string[] E_str = Console.ReadLine().Split(' ');
             string[][] strs = { A_str, B_str,C_str,D_str,/*E_str*/};
 
+            //string配列をint配列に変換
             int[] A = new int[A_str.Length];
             int[] B = new int[B_str.Length];
             int[] C = new int[C_str.Length];
             int[] D = new int[D_str.Length];
             //int[] E = new int[E_str.Length];
             int[][] ints = { A, B, C, D /*,E*/};
-
             int j = 0;
             for(int i = 0; i < ints.Length; i++)
             {
@@ -36,6 +36,7 @@ class Program
                 }
                 j = 0;
             }
+
             //前列希望者の席を抽選
             int[] nums = new int[students.Length-1];
             Random rand = new Random();
@@ -54,7 +55,6 @@ class Program
                     }
                 }
             }
-
 
             //num[]の空いている総要素数
             int intsnum = students.Length-1;
@@ -102,6 +102,7 @@ class Program
             
             //出力
             int count = 0;
+　　　　　　　　Console.WriteLine("　　　        ［ホワイトボード］");
             foreach(int i in nums)
             {
               if(count % 6 == 0 && count!=0){ //席の端っこまで埋まったら改行
